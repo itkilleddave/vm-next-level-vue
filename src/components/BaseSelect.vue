@@ -1,7 +1,12 @@
 <template>
     <div class="field">
         <label v-if="label">{{label}}</label>
-        <select @input="updateValue" :value="value" v-bind="$attrs">
+        <select 
+            @input="updateValue" 
+            :value="value" 
+            v-bind="$attrs" 
+            v-on="listeners"
+        >
             <option 
                 v-for="option in options" 
                 :value="option"
@@ -32,6 +37,14 @@
             //     default: ''
             // },
         },
+        computed: {
+            listeners() {
+                return {
+                    ...this.$listeners,
+                    input: this.updateValue
+                }
+            }
+        },
         methods: {
             updateValue(event) {
                 this.$emit('input', event.target.value)
@@ -40,6 +53,6 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
 </style>

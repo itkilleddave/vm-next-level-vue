@@ -3,7 +3,16 @@
     <h1>Create an Event</h1>
     <form @submit.prevent="createEvent">
 
-      <BaseSelect v-model="event.category" label="Select a Category" :options="categories" />
+      <BaseSelect 
+        v-model="event.category" 
+        label="Select a Category" 
+        :options="categories" 
+        :class="{error: $v.event.category.$error }"
+        @blur="$v.event.category.$touch()"
+      />
+      <template class="error-message" v-if="$v.event.category.$error">
+        <p v-if="$v.event.category.required">Category is required.</p>
+      </template>
 
       <h3>Name & describe your event</h3>
       <BaseInput v-model="event.title" label="Title" placeholder="Add a title" type="text" />
@@ -32,6 +41,7 @@
 
 <script>
 import Datepicker from 'vuejs-datepicker'
+import {required} from 'vuelidate/lib/validators'
 
 export default {
   components: {
@@ -46,6 +56,16 @@ export default {
       times,
       categories: this.$store.state.categories,
       event: this.createFreshEventObject()
+    }
+  },
+  validations: {
+    event: {
+        category: { required },
+        title: { required },
+        description: { required },
+        location: { required },
+        date: { required },
+        time: { required }
     }
   },
   methods: {

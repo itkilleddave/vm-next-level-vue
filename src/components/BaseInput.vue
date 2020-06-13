@@ -7,25 +7,10 @@
 </template>
 
 <script>
-    export default {
-        inheritAttrs: false,
-        props: {
-            label: {
-                type: String,
-                default: ''
-            },
-            value: [String, Number],
-            // placeholder: {
-            //     type: String,
-            //     default: ''
-            // },
-        },
-        methods: {
-            updateValue(event) {
-                this.$emit('input', event.target.value)
-            }
-        },
-    }
+import { formFieldMixin } from '@/mixins/formFieldMixin.js';
+export default {
+    mixins: [ formFieldMixin ],
+}
 </script>
 
 <style lang="scss" scoped>

@@ -1,12 +1,7 @@
 <template>
     <div class="field">
         <label v-if="label">{{label}}</label>
-        <select 
-            @input="updateValue" 
-            :value="value" 
-            v-bind="$attrs" 
-            v-on="listeners"
-        >
+        <select @input="updateValue" :value="value" v-bind="$attrs">
             <option 
                 v-for="option in options" 
                 :value="option"
@@ -20,39 +15,19 @@
 </template>
 
 <script>
-    export default {
-        inheritAttrs: false,
-        props: {
-            options: {
-                type: Array,
-                required: true
-            },
-            label: {
-                type: String,
-                default: ''
-            },
-            value: [String, Number],
-            // placeholder: {
-            //     type: String,
-            //     default: ''
-            // },
-        },
-        computed: {
-            listeners() {
-                return {
-                    ...this.$listeners,
-                    input: this.updateValue
-                }
-            }
-        },
-        methods: {
-            updateValue(event) {
-                this.$emit('input', event.target.value)
-            }
-        },
+import { formFieldMixin } from '@/mixins/formFieldMixin.js';
+
+export default {
+    mixins: [ formFieldMixin ],
+    props: {
+        options: {
+            type: Array,
+            required: true
+        }
     }
+}
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 </style>
